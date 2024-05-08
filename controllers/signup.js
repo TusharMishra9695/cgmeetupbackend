@@ -9,7 +9,7 @@ async function handlePostSignupUser(req, res) {
   try {
     let findUser = await Signup.findOne({ email });
     if (findUser) {
-      res.status(400).send({
+      res.status(200).send({
         message: "Email is already registered",
         success: false,
       });
@@ -21,7 +21,7 @@ async function handlePostSignupUser(req, res) {
       const token = setUser(req.body);
       res.status(200).send({
         token: token, // sending token
-        message: "Sign Up Successful",
+        message: "Sign Up Successful! Login Now",
         success: true,
       });
     }

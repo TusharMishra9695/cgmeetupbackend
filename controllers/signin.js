@@ -20,11 +20,11 @@ async function handlePostSigninUser(req, res) {
         });
       } else {
         res
-          .status(401)
+          .status(200)
           .json({ message: "Invalid credentials!", success: false });
       }
     } else {
-      res.status(400).send({
+      res.status(200).send({
         message: "User does not exist! Signup Now",
         success: false,
       });

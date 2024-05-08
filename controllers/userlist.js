@@ -1,7 +1,6 @@
 const UserList = require("../schemas/signupSchema");
 
 async function handleGetUserList(req, res) {
-  console.log(req.query.page, "query ayei h");
   try {
     // pagination is also implemented for optional points
     let page = Number(req.query.page) || 1; // current page
@@ -18,7 +17,7 @@ async function handleGetUserList(req, res) {
         success: true,
       });
     } else {
-      res.status(400).send({
+      res.status(200).send({
         message: "No User Found!",
         success: false,
       });
