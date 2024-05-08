@@ -1,4 +1,5 @@
 const Signin = require("../schemas/signupSchema");
+const { setUser } = require("../services/auth");
 const bcrypt = require("bcryptjs");
 
 async function handlePostSigninUser(req, res) {
@@ -11,7 +12,9 @@ async function handlePostSigninUser(req, res) {
         findUser.password
       );
       if (passwordMatch) {
+        const token = setUser(req.body);
         res.status(200).send({
+          token: token, // sending token
           message: "Login Successfully",
           success: true,
         });
