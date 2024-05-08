@@ -1,21 +1,33 @@
 const Signin = require("../schemas/signupSchema");
+const bcrypt = require("bcryptjs");
 
 async function handlePostSigninUser(req, res) {
   const { email, password } = req.body;
   try {
-    let findUser = await Signin.findOne({ email, password });
+    let findUser = await Signin.findOne({ email });
     if (findUser) {
-      res.status(200).send({
-        message: "Login Successfully",
-        success: true,
-      });
+      const passwordMatch = await bcrypt.compare(
+        password + process.env.PEP_SECRET, // comparing entered pass with hashed pass
+        findUser.password
+      );
+      if (passwordMatch) {
+        res.status(200).send({
+          message: "Login Successfully",
+          success: true,
+        });
+      } else {
+        res
+          .status(401)
+          .json({ message: "Invalid credentials!", success: false });
+      }
     } else {
       res.status(400).send({
-        message: "User not exist! Signup Now",
+        message: "User does not exist! Signup Now",
         success: false,
       });
     }
   } catch (e) {
+    console.log(e, "error oua ha");
     res.status(500).send({
       message: `Some Internal Error From Signin`,
       success: false,
