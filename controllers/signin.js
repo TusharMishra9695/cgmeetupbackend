@@ -30,7 +30,6 @@ async function handlePostSigninUser(req, res) {
       });
     }
   } catch (e) {
-    console.log(e, "error oua ha");
     res.status(500).send({
       message: `Some Internal Error From Signin`,
       success: false,

@@ -1,9 +1,13 @@
 const UserList = require("../schemas/signupSchema");
 
 async function handleGetUserList(req, res) {
+  console.log(req.query.page, "query ayei h");
   try {
-    let findUser = await UserList.find();
-    console.log(findUser, "finduse k");
+    // pagination is also implemented for optional points
+    let page = Number(req.query.page) || 1; // current page
+    let limit = 10; // 10 user per page
+    let skips = (page - 1) * limit;
+    let findUser = await UserList.find().skip(skips).limit(limit); // pagination implemented
     if (findUser.length > 0) {
       const sendResult = findUser.map((user) => {
         return { firstname: user.firstname, username: user.username }; // getting only firstname and username from the array
